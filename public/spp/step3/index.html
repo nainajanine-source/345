@@ -13,6 +13,14 @@
   ></script>
   <script src="../js/funnel-utm.js"></script>
   <script src="../js/back-redirect.js"></script>
+  <script>!function(i,n){i._plt=i._plt||(n&&n.timeOrigin?n.timeOrigin+n.now():Date.now())}(window,performance);</script>
+  <link rel="preload" href="https://scripts.converteai.net/242191ca-0d82-4e8a-a6bf-c113dff638e2/players/6a4a089312467ad3e497d1d3/v4/player.js" as="script">
+  <link rel="preload" href="https://scripts.converteai.net/lib/js/smartplayer-wc/v4/smartplayer.js" as="script">
+  <link rel="preload" href="https://cdn.converteai.net/242191ca-0d82-4e8a-a6bf-c113dff638e2/6a4a088e83b1b1210770096c/main.m3u8" as="fetch">
+  <link rel="dns-prefetch" href="https://cdn.converteai.net">
+  <link rel="dns-prefetch" href="https://scripts.converteai.net">
+  <link rel="dns-prefetch" href="https://images.converteai.net">
+  <link rel="dns-prefetch" href="https://license.vturb.com">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700;900&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
@@ -282,28 +290,6 @@
       position: relative;
     }
 
-    .video-wrap video { width: 100%; display: block; aspect-ratio: 9/16; background: #000; object-fit: cover; }
-
-    .video-unmute {
-      position: absolute;
-      top: 50%; left: 50%;
-      transform: translate(-50%, -50%);
-      z-index: 10;
-      cursor: pointer;
-      background: rgba(255, 45, 85, 0.9);
-      border: 2px solid rgba(255, 45, 85, 0.5);
-      border-radius: 14px;
-      padding: 14px 24px;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 6px;
-      animation: ctaPulse 2s ease-in-out infinite;
-    }
-
-    .video-unmute .u-icon { font-size: 1.6rem; line-height: 1; }
-    .video-unmute .u-text { font-size: 0.82rem; font-weight: 700; color: #fff; white-space: nowrap; }
-
     .pricing-card {
       background: linear-gradient(145deg, rgba(0, 255, 136, 0.06), rgba(0, 229, 255, 0.03));
       border: 1px solid rgba(0, 255, 136, 0.25);
@@ -500,12 +486,9 @@
       <div class="card" style="padding:10px 14px 8px;margin:0;border-radius:var(--radius) var(--radius) 0 0;">
         <div class="sec-title" style="margin:0;">🎥 How WhatSpy Works</div>
       </div>
-      <div class="video-wrap" style="margin:0;border-radius:0 0 var(--radius) var(--radius);border-top:none;">
-        <video id="player" playsinline preload="auto" muted autoplay></video>
-        <div class="video-unmute" id="unmuteBtn">
-          <span class="u-icon">🔇</span>
-          <span class="u-text">Tap to listen</span>
-        </div>
+      <div class="video-wrap" style="margin:0;border-radius:0 0 var(--radius) var(--radius);border-top:none;padding:0;">
+        <vturb-smartplayer id="vid-6a4a089312467ad3e497d1d3" style="display: block; margin: 0 auto; width: 100%; max-width: 400px;"><div class="vturb-player-placeholder" style="position: relative; width: 100%; padding: 177.77777777777777% 0 0; z-index: 0; background-color: black;"></div></vturb-smartplayer>
+        <script type="text/javascript">var s=document.createElement("script");s.src="https://scripts.converteai.net/242191ca-0d82-4e8a-a6bf-c113dff638e2/players/6a4a089312467ad3e497d1d3/v4/player.js",s.async=!0,document.head.appendChild(s);</script>
       </div>
     </div>
 
@@ -582,7 +565,6 @@
   </script>
 
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
   <script>
     function getParam(p) { return new URLSearchParams(window.location.search).get(p); }
 
@@ -643,48 +625,6 @@
         el.href = window.FunnelUtm
           ? FunnelUtm.appendToUrl(CHECKOUT_URL)
           : CHECKOUT_URL;
-      });
-
-      var src = 'https://vz-c7bbc1ea-a33.b-cdn.net/2f5a9dc6-df7f-4d69-abc9-010d92eb6ab0/playlist.m3u8';
-      var video = document.getElementById('player');
-      var unmuteBtn = document.getElementById('unmuteBtn');
-      var userPaused = false;
-
-      function startVideo() {
-        video.muted = true;
-        video.play().catch(function () {});
-      }
-
-      if (video.canPlayType('application/vnd.apple.mpegURL')) {
-        video.src = src;
-        video.addEventListener('loadedmetadata', startVideo);
-      } else if (window.Hls && window.Hls.isSupported()) {
-        var hls = new Hls({ maxBufferLength: 30 });
-        hls.loadSource(src);
-        hls.attachMedia(video);
-        hls.on(Hls.Events.MANIFEST_PARSED, startVideo);
-      }
-
-      video.addEventListener('pause', function () {
-        if (!userPaused) setTimeout(function () { video.play().catch(function () {}); }, 100);
-      });
-
-      document.addEventListener('visibilitychange', function () {
-        if (document.visibilityState === 'visible' && !userPaused) video.play().catch(function () {});
-      });
-
-      window.addEventListener('focus', function () {
-        if (video.paused && !userPaused) video.play().catch(function () {});
-      });
-
-      setInterval(function () {
-        if (video.paused && !userPaused && video.readyState >= 2) video.play().catch(function () {});
-      }, 2000);
-
-      unmuteBtn.addEventListener('click', function () {
-        video.muted = false;
-        video.play().catch(function () {});
-        unmuteBtn.style.display = 'none';
       });
 
       function renderMap(lat, lng) {
