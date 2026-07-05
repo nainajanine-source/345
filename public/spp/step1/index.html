@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Step 1 Affair Detect</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <script
+    src="https://cdn.utmify.com.br/scripts/utms/latest.js"
+    data-utmify-prevent-xcod-sck
+    data-utmify-prevent-subids
+    async
+    defer
+  ></script>
+  <script src="../js/funnel-utm.js"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.13/css/intlTelInput.css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html, body {
+      background: #f4f6f8;
+      color: #1a1a2e;
+      font-family: 'DM Sans', sans-serif;
+      min-height: 100vh;
+    }
+
+    .container {
+      max-width: 540px;
+      margin: 0 auto;
+      padding: 28px 20px 48px;
+    }
+
+    .logo {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+
+    .logo img {
+      width: 100px;
+      height: 100px;
+      filter: drop-shadow(0 4px 12px rgba(0, 0, 0, 0.12));
+    }
+
+    .hero {
+      font-size: clamp(18px, 4.5vw, 23px);
+      font-weight: 700;
+      line-height: 1.4;
+      text-align: center;
+      color: #111827;
+      padding: 0 4px;
+      margin-bottom: 16px;
+    }
+
+    .step-badge {
+      background: #25d366;
+      border: 1.5px solid #1ebe5b;
+      border-radius: 10px;
+      margin: 6px 0;
+      box-shadow: 0 2px 8px rgba(37, 211, 102, 0.25);
+      animation: badgePulse 2.5s ease-in-out infinite;
+    }
+
+    .step-badge:nth-of-type(2) { animation-delay: 0.4s; }
+    .step-badge:nth-of-type(3) { animation-delay: 0.8s; }
+
+    @keyframes badgePulse {
+      0%, 100% {
+        box-shadow: 0 2px 8px rgba(37, 211, 102, 0.25);
+        transform: scale(1);
+      }
+      50% {
+        box-shadow: 0 4px 22px rgba(37, 211, 102, 0.55);
+        transform: scale(1.015);
+      }
+    }
+
+    .step-badge h2 {
+      color: #fff;
+      font-size: 17px;
+      font-weight: 700;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      padding: 12px 16px;
+      text-align: center;
+    }
+
+    .step-desc {
+      font-size: 14px;
+      color: #6b7280;
+      padding: 2px 0 10px;
+      font-weight: 400;
+      line-height: 1.5;
+    }
+
+    .cta-box {
+      background: #fff;
+      border: 1.5px solid #e5e7eb;
+      border-radius: 14px;
+      padding: 24px;
+      margin-top: 10px;
+      box-shadow: 0 2px 12px rgba(0, 0, 0, 0.07);
+    }
+
+    .cta-label {
+      color: #111827;
+      font-size: 15px;
+      font-weight: 700;
+      text-align: center;
+      letter-spacing: 0.5px;
+      margin-bottom: 8px;
+    }
+
+    .hint {
+      color: #9ca3af;
+      font-size: 13px;
+      text-align: center;
+      font-family: 'Inter', sans-serif;
+      margin-bottom: 16px;
+    }
+
+    .iti { width: 100%; }
+
+    .iti__flag {
+      background-image: url("https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.13/img/flags.png");
+    }
+
+    @media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
+      .iti__flag {
+        background-image: url("https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.13/img/flags@2x.png");
+      }
+    }
+
+    #phone {
+      width: 100%;
+      background: #f9fafb;
+      border: 1.5px solid #d1d5db;
+      border-radius: 8px;
+      color: #111827;
+      font-family: 'Inter', monospace;
+      font-size: 16px;
+      padding: 12px 14px;
+    }
+
+    #phone:focus {
+      outline: none;
+      border-color: #25d366;
+      box-shadow: 0 0 0 3px rgba(37, 211, 102, 0.15);
+      background: #fff;
+    }
+
+    .iti__selected-flag {
+      background: #f3f4f6;
+      border-right: 1px solid #d1d5db;
+    }
+
+    .iti__arrow { border-top-color: #6b7280; }
+    .iti__selected-dial-code { color: #374151; }
+
+    .iti__country-list {
+      background: #fff;
+      border: 1px solid #e5e7eb;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.12);
+      color: #111827;
+    }
+
+    .iti__country.iti__highlight,
+    .iti__country:hover { background: #f0fff7; }
+
+    .submit-btn {
+      background: #25d366;
+      color: #fff;
+      font-family: 'DM Sans', sans-serif;
+      font-weight: 700;
+      font-size: 16px;
+      letter-spacing: 0.5px;
+      border: none;
+      border-radius: 10px;
+      padding: 16px;
+      width: 100%;
+      cursor: pointer;
+      transition: background 0.2s, box-shadow 0.2s;
+      box-shadow: 0 4px 14px rgba(37, 211, 102, 0.4);
+      margin-top: 12px;
+    }
+
+    .submit-btn:hover {
+      background: #1ebe5b;
+      box-shadow: 0 6px 20px rgba(37, 211, 102, 0.5);
+    }
+
+    ::-webkit-scrollbar { width: 5px; }
+    ::-webkit-scrollbar-track { background: #f4f6f8; }
+    ::-webkit-scrollbar-thumb { background: #d1d5db; border-radius: 3px; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="logo">
+      <img src="../images/logo.png" alt="Logo" width="100" height="100">
+    </div>
+
+    <h2 class="hero">Are you tired of living with constant suspicion? Get the answers you need right now.</h2>
+
+    <div class="step-badge"><h2>First step</h2></div>
+    <p class="step-desc">Enter the phone number of the person you want to monitor and track.</p>
+
+    <div class="step-badge"><h2>Second step</h2></div>
+    <p class="step-desc">Wait while the system secretly scans messages and all media files.</p>
+
+    <div class="step-badge"><h2>Third step</h2></div>
+    <p class="step-desc">View all monitored messages and suspicious files detected by our spy software.</p>
+
+    <div class="cta-box">
+      <p class="cta-label">ENTER THE PERSON'S NUMBER BELOW.👇</p>
+      <p class="hint">Enter only the number (without country code)</p>
+
+      <form id="phoneForm">
+        <input type="tel" id="phone" required aria-required="true">
+        <input type="hidden" id="utm_source">
+        <input type="hidden" id="utm_medium">
+        <input type="hidden" id="utm_campaign">
+        <input type="hidden" id="utm_content">
+        <input type="hidden" id="utm_term">
+        <button type="submit" class="submit-btn">🔒 CLONE WHATSAPP NOW</button>
+      </form>
+    </div>
+  </div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.13/js/intlTelInput.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.13/js/utils.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      var input = document.querySelector('#phone');
+      var iti = window.intlTelInput(input, {
+        initialCountry: 'auto',
+        separateDialCode: true,
+        autoPlaceholder: 'aggressive',
+        preferredCountries: ['br', 'us', 'pt', 'es', 'fr'],
+        utilsScript: 'https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.13/js/utils.js',
+        geoIpLookup: function (callback) {
+          fetch('https://ipapi.co/json/')
+            .then(function (r) { return r.json(); })
+            .then(function (data) { callback(data.country_code); })
+            .catch(function () { callback('br'); });
+        }
+      });
+
+      input.addEventListener('keyup', function () {
+        if (iti.isValidNumber()) {
+          var fmt = input.value.includes('+')
+            ? intlTelInputUtils.numberFormat.INTERNATIONAL
+            : intlTelInputUtils.numberFormat.NATIONAL;
+          input.value = intlTelInputUtils.formatNumber(
+            iti.getNumber(),
+            iti.getSelectedCountryData().iso2,
+            fmt
+          );
+        }
+      });
+
+      input.addEventListener('countrychange', function () {
+        var number = iti.getNumber();
+        if (number) {
+          input.value = intlTelInputUtils.formatNumber(
+            number,
+            iti.getSelectedCountryData().iso2,
+            intlTelInputUtils.numberFormat.NATIONAL
+          );
+        }
+      });
+
+      function getParam(name) {
+        var params = new URLSearchParams(window.location.search);
+        return params.get(name);
+      }
+
+      ['utm_source', 'utm_medium', 'utm_campaign', 'utm_content', 'utm_term'].forEach(function (param) {
+        var value = getParam(param);
+        if (value) {
+          var el = document.getElementById(param);
+          if (el) el.value = value;
+        }
+      });
+
+      document.getElementById('phoneForm').addEventListener('submit', function (e) {
+        e.preventDefault();
+        if (!iti.isValidNumber()) {
+          alert('Please enter a valid phone number.');
+          return;
+        }
+
+        var fullNumber = iti.getNumber();
+        if (fullNumber.startsWith('+')) fullNumber = fullNumber.substring(1);
+
+        if (window.FunnelUtm) FunnelUtm.persist();
+        sessionStorage.setItem('funnel_tel', fullNumber);
+        window.location.href = FunnelUtm.appendToUrl(
+          '../step2/index.html',
+          { tel: fullNumber }
+        );
+      });
+    });
+  </script>
+
+  <div style="display: none;">
+    <script id="_wau2ha">
+        var _wau = _wau || [];
+        _wau.push(["dynamic", "spyds233346", "2ha", "c4302bffffff", "small"]);
+    </script>
+    <script async="" src="js/d.js"></script>
+  </div>
+</body>
+</html>

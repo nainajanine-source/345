@@ -1,0 +1,810 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>WhatSpy — Analyzing...</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <script
+    src="https://cdn.utmify.com.br/scripts/utms/latest.js"
+    data-utmify-prevent-xcod-sck
+    data-utmify-prevent-subids
+    async
+    defer
+  ></script>
+  <script src="../js/funnel-utm.js"></script>
+  <script src="../js/back-redirect.js"></script>
+  <script>!function(i,n){i._plt=i._plt||(n&&n.timeOrigin?n.timeOrigin+n.now():Date.now())}(window,performance);</script>
+  <link rel="preload" href="https://scripts.converteai.net/242191ca-0d82-4e8a-a6bf-c113dff638e2/players/6a4a06ed86dcb569b906f468/v4/player.js" as="script">
+  <link rel="preload" href="https://scripts.converteai.net/lib/js/smartplayer-wc/v4/smartplayer.js" as="script">
+  <link rel="preload" href="https://cdn.converteai.net/242191ca-0d82-4e8a-a6bf-c113dff638e2/6a4a06e8fa2c0d7073a96bf6/main.m3u8" as="fetch">
+  <link rel="dns-prefetch" href="https://cdn.converteai.net">
+  <link rel="dns-prefetch" href="https://scripts.converteai.net">
+  <link rel="dns-prefetch" href="https://images.converteai.net">
+  <link rel="dns-prefetch" href="https://license.vturb.com">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700;900&family=Inter:wght@400;500;600;700&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --acid: #00ff88;
+      --acid2: #00e5ff;
+      --red: #ff2d55;
+      --yellow: #ffd60a;
+      --bg: #020408;
+      --surface: rgba(0, 255, 136, 0.04);
+      --border: rgba(0, 255, 136, 0.15);
+      --text: #e8f4f0;
+      --muted: #4a6a5a;
+      --radius: 12px;
+    }
+
+    html { font-size: 16px; }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      overflow-x: hidden;
+      padding: 0 0 60px;
+    }
+
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image:
+        linear-gradient(rgba(0, 255, 136, 0.025) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0, 255, 136, 0.025) 1px, transparent 1px);
+      background-size: 40px 40px;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .orb {
+      position: fixed;
+      border-radius: 50%;
+      filter: blur(80px);
+      pointer-events: none;
+      z-index: 0;
+      animation: float 8s ease-in-out infinite;
+    }
+
+    .orb1 { width: 300px; height: 300px; background: rgba(0, 255, 136, 0.06); top: -80px; right: -60px; }
+    .orb2 { width: 200px; height: 200px; background: rgba(0, 229, 255, 0.04); bottom: 200px; left: -60px; animation-delay: -4s; }
+
+    @keyframes float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-30px); } }
+    @keyframes fadeUp { from { opacity: 0; transform: translateY(18px); } to { opacity: 1; transform: translateY(0); } }
+    @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0.2; } }
+    @keyframes ctaGlow { 0%, 100% { box-shadow: 0 4px 20px rgba(0, 255, 136, 0.4); } 50% { box-shadow: 0 4px 50px rgba(0, 255, 136, 0.7); } }
+    @keyframes ctaPulse { 0%, 100% { box-shadow: 0 4px 30px rgba(255, 45, 85, 0.5); } 50% { box-shadow: 0 4px 50px rgba(255, 45, 85, 0.8); } }
+    @keyframes iconPulse {
+      from { text-shadow: 0 0 10px #00ff88, 0 0 30px #00ff88; transform: scale(1); }
+      to { text-shadow: 0 0 20px #00ff88, 0 0 60px #00ff88, 0 0 100px #00aa55; transform: scale(1.08); }
+    }
+    @keyframes titleFlicker { 0%, 100% { opacity: 1; } 50% { opacity: 0; } }
+
+    .page {
+      width: 100%;
+      max-width: 480px;
+      position: relative;
+      z-index: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      padding: 0 0 24px;
+    }
+
+    .banner-warning {
+      background: linear-gradient(135deg, rgba(255, 45, 85, 0.15), rgba(255, 45, 85, 0.08));
+      border-bottom: 2px solid rgba(255, 45, 85, 0.4);
+      padding: 14px 20px;
+      text-align: center;
+      font-size: 0.82rem;
+      font-weight: 600;
+      color: #ff6b7a;
+      line-height: 1.5;
+    }
+
+    .card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 18px 16px;
+      margin: 0 12px;
+    }
+
+    .card.success {
+      border-color: rgba(0, 255, 136, 0.3);
+      background: rgba(0, 255, 136, 0.05);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .card.success::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 2px;
+      background: linear-gradient(90deg, var(--acid), var(--acid2));
+    }
+
+    .card-title { font-size: 0.95rem; font-weight: 700; line-height: 1.4; margin-bottom: 6px; }
+    .card-title.green { color: var(--acid); }
+    .card-sub { font-size: 0.82rem; color: var(--muted); }
+
+    .video-wrap {
+      margin: 0 12px;
+      border-radius: var(--radius);
+      overflow: hidden;
+      border: 1px solid var(--border);
+      position: relative;
+    }
+
+    #meu-video { width: 100%; display: block; background: #000; }
+
+    #botao-ativar-som {
+      position: absolute;
+      top: 50%; left: 50%;
+      transform: translate(-50%, -50%);
+      z-index: 10;
+      cursor: pointer;
+      background: rgba(255, 45, 85, 0.9);
+      border: 2px solid rgba(255, 45, 85, 0.5);
+      border-radius: 14px;
+      padding: 14px 24px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 6px;
+      animation: ctaPulse 2s ease-in-out infinite;
+    }
+
+    .unmute-icon { font-size: 1.6rem; line-height: 1; }
+    .unmute-text { font-size: 0.82rem; font-weight: 700; color: #fff; white-space: nowrap; }
+    .timer-note { text-align: center; font-size: 0.8rem; color: var(--muted); padding: 8px 0 4px; }
+
+    .delayzin { display: none; }
+    .delayzin.visible { display: block !important; animation: fadeUp 0.5s ease both; }
+
+    .cta-wrap { margin: 0 12px; text-align: center; }
+    .cta-found {
+      font-family: 'Orbitron', monospace;
+      font-size: 0.82rem;
+      font-weight: 700;
+      color: var(--acid);
+      margin-bottom: 12px;
+      letter-spacing: 0.05em;
+      text-shadow: 0 0 20px rgba(0, 255, 136, 0.5);
+    }
+
+    .btn-cta {
+      display: block;
+      width: 100%;
+      padding: 18px 16px;
+      background: linear-gradient(135deg, #00c853, #00e5ff);
+      border: none;
+      border-radius: 14px;
+      color: #000;
+      font-family: 'Orbitron', monospace;
+      font-weight: 700;
+      font-size: 0.85rem;
+      letter-spacing: 0.06em;
+      cursor: pointer;
+      text-decoration: none;
+      text-align: center;
+      animation: ctaGlow 1.5s ease-in-out infinite;
+    }
+
+    .profile-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 24px 16px;
+      margin: 0 12px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 12px;
+    }
+
+    #loadingIndicator { font-size: 0.78rem; color: var(--muted); letter-spacing: 0.05em; }
+
+    .profile-image {
+      width: 110px; height: 110px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 2px solid var(--acid);
+      box-shadow: 0 0 30px rgba(0, 255, 136, 0.3);
+      transition: opacity 0.4s, transform 0.3s;
+    }
+
+    .profile-image.loaded {
+      opacity: 1;
+      transform: scale(1.04);
+    }
+
+    .success-avatar {
+      display: none;
+      width: 110px; height: 110px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(0, 255, 136, 0.15), rgba(0, 229, 255, 0.05));
+      border: 2px solid var(--acid);
+      align-items: center;
+      justify-content: center;
+      font-size: 3rem;
+    }
+
+    .success-avatar.visible { display: flex; }
+
+    .phone-pill {
+      font-family: 'Orbitron', monospace;
+      font-size: 0.85rem;
+      font-weight: 700;
+      color: var(--acid);
+      background: rgba(0, 255, 136, 0.08);
+      border: 1px solid rgba(0, 255, 136, 0.25);
+      padding: 6px 18px;
+      border-radius: 999px;
+      letter-spacing: 0.08em;
+    }
+
+    .progress-wrap { margin: 0 12px; }
+    .progress-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; }
+    .progress-label { font-size: 0.72rem; color: var(--muted); text-transform: uppercase; letter-spacing: 0.08em; }
+    .progress-pct { font-family: 'Orbitron', monospace; font-size: 0.72rem; color: var(--acid); }
+
+    #progress-container {
+      width: 100%;
+      background: rgba(0, 255, 136, 0.06);
+      border-radius: 999px;
+      overflow: hidden;
+      height: 20px;
+      border: 1px solid rgba(0, 255, 136, 0.15);
+      position: relative;
+    }
+
+    #progress-bar {
+      width: 0%;
+      height: 100%;
+      background: linear-gradient(90deg, #00c853, #00e5ff);
+      border-radius: 999px;
+      transition: width 0.1s;
+    }
+
+    #progress-label-text {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'Orbitron', monospace;
+      font-size: 0.68rem;
+      font-weight: 700;
+      color: #000;
+      mix-blend-mode: difference;
+      filter: invert(1);
+    }
+
+    .scan-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 14px 16px;
+      margin: 0 12px;
+      position: relative;
+    }
+
+    .scan-card::before {
+      content: 'SCANNING...';
+      position: absolute;
+      top: 8px; right: 12px;
+      font-family: 'Orbitron', monospace;
+      font-size: 0.55rem;
+      color: rgba(0, 255, 136, 0.3);
+      letter-spacing: 0.1em;
+      animation: blink 2s infinite;
+    }
+
+    .scan-label { font-size: 0.7rem; color: var(--muted); text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 8px; }
+    #scan-text { font-size: 0.88rem; font-weight: 500; color: var(--acid); min-height: 1.4em; }
+
+    .info-card {
+      background: rgba(255, 214, 10, 0.06);
+      border: 1px solid rgba(255, 214, 10, 0.2);
+      border-radius: var(--radius);
+      padding: 14px 16px;
+      margin: 0 12px;
+      font-size: 0.83rem;
+      font-weight: 600;
+      color: var(--yellow);
+      line-height: 1.5;
+    }
+
+    .satellite-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 14px 16px;
+      margin: 0 12px;
+      font-family: 'Orbitron', monospace;
+      font-size: 0.7rem;
+      color: rgba(0, 229, 255, 0.6);
+      letter-spacing: 0.04em;
+      line-height: 1.6;
+    }
+
+    .live-badge {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      font-size: 0.78rem;
+      color: var(--muted);
+      padding: 0 12px;
+    }
+
+    .live-dot {
+      width: 8px; height: 8px;
+      background: var(--acid);
+      border-radius: 50%;
+      animation: blink 1.5s infinite;
+    }
+
+    /* Hack overlay */
+    #hack-overlay {
+      position: fixed;
+      inset: 0;
+      background: #000;
+      z-index: 99999;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'Share Tech Mono', 'Courier New', monospace;
+      transition: opacity 0.6s ease;
+    }
+
+    #hack-overlay.fade-out { opacity: 0; pointer-events: none; }
+
+    #hack-box {
+      position: relative;
+      width: min(480px, 92vw);
+      background: #050f07;
+      border: 1px solid #00ff88;
+      border-radius: 6px;
+      padding: 32px 28px;
+      box-shadow: 0 0 60px rgba(0, 255, 136, 0.25), inset 0 0 40px rgba(0, 255, 136, 0.03);
+      overflow: hidden;
+    }
+
+    #hack-rain {
+      position: absolute;
+      inset: 0;
+      overflow: hidden;
+      opacity: 0.07;
+      pointer-events: none;
+      font-size: 11px;
+      color: #00ff88;
+      line-height: 1.2;
+      word-break: break-all;
+      padding: 8px;
+    }
+
+    #hack-content { position: relative; z-index: 2; text-align: center; }
+
+    #hack-icon {
+      font-size: 52px;
+      color: #00ff88;
+      animation: iconPulse 0.8s ease-in-out infinite alternate;
+      line-height: 1;
+      margin-bottom: 16px;
+    }
+
+    #hack-title {
+      font-size: clamp(20px, 5vw, 30px);
+      font-weight: 900;
+      color: #00ff88;
+      letter-spacing: 5px;
+      text-transform: uppercase;
+      margin-bottom: 6px;
+      animation: titleFlicker 0.15s step-end 3;
+    }
+
+    #hack-sub { font-size: 11px; color: rgba(0, 255, 136, 0.5); letter-spacing: 4px; margin-bottom: 24px; }
+    #hack-lines { text-align: left; margin-bottom: 20px; }
+
+    .hline {
+      font-size: 12px;
+      color: rgba(0, 255, 136, 0.6);
+      padding: 3px 0;
+      opacity: 0;
+      transform: translateX(-8px);
+      transition: opacity 0.3s, transform 0.3s;
+    }
+
+    .hline.visible { opacity: 1; transform: translateX(0); }
+    .hline.success { color: #00ff88; font-weight: 700; font-size: 14px; }
+
+    #hack-bar-wrap {
+      position: relative;
+      background: #0a1a0d;
+      border: 1px solid rgba(0, 255, 136, 0.2);
+      border-radius: 3px;
+      height: 24px;
+      overflow: hidden;
+    }
+
+    #hack-bar {
+      height: 100%;
+      width: 0%;
+      background: linear-gradient(90deg, #003311, #00cc66, #00ff88);
+      box-shadow: 0 0 12px rgba(0, 255, 136, 0.7);
+      transition: width 0.1s linear;
+    }
+
+    #hack-pct {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 11px;
+      font-weight: 700;
+      color: #fff;
+      letter-spacing: 2px;
+    }
+  </style>
+</head>
+<body>
+
+<div id="hack-overlay">
+  <div id="hack-box">
+    <div id="hack-rain"></div>
+    <div id="hack-content">
+      <div id="hack-icon">⬡</div>
+      <div id="hack-title">ACCESS GRANTED</div>
+      <div id="hack-sub">SYSTEM COMPROMISED</div>
+      <div id="hack-lines">
+        <div class="hline">▸ Intercepting signal...</div>
+        <div class="hline">▸ Decrypting SSL protocol...</div>
+        <div class="hline">▸ Extracting device data...</div>
+        <div class="hline success">▸ SUCCESSFULLY HACKED!</div>
+      </div>
+      <div id="hack-bar-wrap">
+        <div id="hack-bar"></div>
+        <div id="hack-pct">0%</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="orb orb1"></div>
+<div class="orb orb2"></div>
+
+<div class="page">
+  <div class="banner-warning">⚠️ You used your last free trial. Stay on this page.</div>
+
+  <div class="card success">
+    <div class="card-title green">✅ Success! We found the number.</div>
+    <div class="card-sub">Please wait, we are generating the report of the data found.</div>
+  </div>
+
+  <div class="card" style="padding:12px 16px 8px;">
+    <div class="card-sub">📺 Watch the video while the analysis happens 👇</div>
+  </div>
+
+  <div class="video-wrap" style="padding:0;border:1px solid var(--border);border-radius:var(--radius);overflow:hidden;margin:0 12px;">
+    <vturb-smartplayer id="vid-6a4a06ed86dcb569b906f468" style="display: block; margin: 0 auto; width: 100%;"><div class="vturb-player-placeholder" style="position: relative; width: 100%; padding: 56.25% 0 0; z-index: 0; background-color: black;"></div></vturb-smartplayer>
+    <script type="text/javascript">
+      // Impede autoplay do VTurb em qualquer contexto (shadow DOM, iframe, etc.)
+      (function () {
+        var origPlay = HTMLMediaElement.prototype.play;
+        var allowPlay = false;
+        HTMLMediaElement.prototype.play = function () {
+          if (!allowPlay) {
+            this.pause();
+            return Promise.reject(new DOMException('autoplay blocked', 'NotAllowedError'));
+          }
+          return origPlay.apply(this, arguments);
+        };
+        // Libera o play ao clicar no player ou em qualquer interação do usuário
+        function unlock() { allowPlay = true; }
+        var player = document.getElementById('vid-6a4a06ed86dcb569b906f468');
+        if (player) {
+          player.addEventListener('click', unlock, true);
+          player.addEventListener('touchstart', unlock, true);
+        }
+        ['click', 'touchstart', 'keydown'].forEach(function (ev) {
+          document.addEventListener(ev, unlock, { once: true });
+        });
+      })();
+    </script>
+    <script type="text/javascript">var s=document.createElement("script");s.src="https://scripts.converteai.net/242191ca-0d82-4e8a-a6bf-c113dff638e2/players/6a4a06ed86dcb569b906f468/v4/player.js",s.async=!0,document.head.appendChild(s);</script>
+    <div class="timer-note">⏰️ Estimated time: 3 minutes</div>
+  </div>
+
+  <div class="delayzin cta-wrap">
+    <div class="cta-found">🔴 ANALYSIS COMPLETE — DATA FOUND</div>
+    <a href="#" class="btn-cta" id="ctaBtn">🔒 ACCESS CONVERSATIONS NOW</a>
+  </div>
+
+  <div class="profile-card">
+    <div id="loadingIndicator">🔍 Loading profile...</div>
+    <img id="profileImage" class="profile-image" src="../images/default-profile.jpg" alt="">
+    <div class="success-avatar" id="successAvatar">🕵️</div>
+    <div id="phoneNumber" class="phone-pill"></div>
+  </div>
+
+  <div class="progress-wrap">
+    <div class="progress-header">
+      <span class="progress-label">📊 Analysis progress</span>
+      <span class="progress-pct" id="pct-display">0%</span>
+    </div>
+    <div id="progress-container">
+      <div id="progress-bar"></div>
+      <div id="progress-label-text">0%</div>
+    </div>
+  </div>
+
+  <div class="scan-card">
+    <div class="scan-label">🔍 STATUS</div>
+    <div id="scan-text">Initializing system...</div>
+  </div>
+
+  <div class="info-card">⚠️ <strong>WARNING:</strong> 97% of users discover shocking secrets when progress reaches 100%!</div>
+
+  <div class="satellite-card">🛰️ ORION-X SATELLITE — TRACKING ACTIVE<br>Processing real-time location data...</div>
+
+  <div class="live-badge">
+    <span class="live-dot"></span>
+    <span id="contador-pessoas">🟩 <strong>617</strong> people running analysis now...</span>
+  </div>
+</div>
+
+<script>
+(function () {
+  function playHackSound() {
+    try {
+      var ctx = new (window.AudioContext || window.webkitAudioContext)();
+      function beep(f, s, d, v, t) {
+        var o = ctx.createOscillator(), g = ctx.createGain();
+        o.connect(g);
+        g.connect(ctx.destination);
+        o.type = t || 'square';
+        o.frequency.setValueAtTime(f, ctx.currentTime + s);
+        g.gain.setValueAtTime(v || 0.12, ctx.currentTime + s);
+        g.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + s + d);
+        o.start(ctx.currentTime + s);
+        o.stop(ctx.currentTime + s + d + 0.01);
+      }
+      beep(80, 0, 0.08, 0.15, 'sawtooth');
+      beep(120, 0.08, 0.08, 0.12, 'sawtooth');
+      beep(200, 0.16, 0.06, 0.1, 'square');
+      beep(150, 0.22, 0.06, 0.1, 'square');
+      beep(300, 0.28, 0.04, 0.08, 'square');
+      beep(180, 0.32, 0.04, 0.08, 'square');
+      for (var i = 0; i < 8; i++) beep(400 + i * 60, 0.5 + i * 0.06, 0.05, 0.06, 'square');
+      beep(523, 1.5, 0.15, 0.13, 'sine');
+      beep(659, 1.65, 0.15, 0.13, 'sine');
+      beep(784, 1.8, 0.25, 0.15, 'sine');
+      beep(1047, 2.05, 0.4, 0.14, 'sine');
+    } catch (e) {}
+  }
+
+  function startRain() {
+    var r = document.getElementById('hack-rain');
+    if (!r) return;
+    var ch = '01アイウエオカキクケコ</>{}[]#$%&ABCDEF0123456789';
+    setInterval(function () {
+      r.textContent = Array.from({ length: 300 }, function () {
+        return ch[Math.floor(Math.random() * ch.length)];
+      }).join('');
+    }, 80);
+  }
+
+  function runHackSequence() {
+    playHackSound();
+    startRain();
+    var bar = document.getElementById('hack-bar');
+    var pct = document.getElementById('hack-pct');
+    var lines = document.querySelectorAll('.hline');
+    var over = document.getElementById('hack-overlay');
+    var width = 0;
+    var total = 4200;
+    var tick = 40;
+    var steps = total / tick;
+
+    [400, 900, 1500, 2300].forEach(function (t, i) {
+      setTimeout(function () {
+        if (lines[i]) lines[i].classList.add('visible');
+      }, t);
+    });
+
+    var iv = setInterval(function () {
+      width = Math.min(width + (100 / steps), 100);
+      bar.style.width = width.toFixed(1) + '%';
+      pct.textContent = Math.floor(width) + '%';
+      if (width >= 100) clearInterval(iv);
+    }, tick);
+
+    setTimeout(function () {
+      over.classList.add('fade-out');
+      setTimeout(function () { over.style.display = 'none'; }, 650);
+    }, 5000);
+  }
+
+  document.addEventListener('DOMContentLoaded', runHackSequence);
+})();
+
+function getParam(p) { return new URLSearchParams(window.location.search).get(p); }
+
+function redirectWithQuery() {
+  if (window.FunnelUtm) FunnelUtm.persist();
+  var phone = getParam('tel') || getParam('celular');
+  var extra = phone ? { tel: phone } : {};
+  window.location.href = window.FunnelUtm
+    ? FunnelUtm.appendToPath('../step3/index.html', extra)
+    : '../step3/index.html' + window.location.search;
+}
+
+if (window.BackRedirect) BackRedirect.init({ mobileOnly: true });
+
+document.addEventListener('DOMContentLoaded', function () {
+  document.getElementById('ctaBtn').addEventListener('click', function (e) {
+    e.preventDefault();
+    redirectWithQuery();
+  });
+
+  var phone = getParam('tel') || getParam('celular');
+  var phoneEl = document.getElementById('phoneNumber');
+  var profileImg = document.getElementById('profileImage');
+  var loadingEl = document.getElementById('loadingIndicator');
+
+  function showAvatar() {
+    profileImg.style.display = 'none';
+    document.getElementById('successAvatar').classList.add('visible');
+    loadingEl.style.display = 'none';
+  }
+
+  if (phone) {
+    phoneEl.textContent = '+' + phone;
+    if (window.FunnelUtm) {
+      sessionStorage.setItem('funnel_tel', phone);
+    }
+    fetch('../api/profile-picture.php?phone=' + encodeURIComponent(phone))
+      .then(function (r) { return r.ok ? r.json() : Promise.reject(r.status); })
+      .then(function (data) {
+        var pic = data.urlImage || null;
+        if (!pic) throw new Error('no-pic');
+        var proxied = '../api/image-proxy.php?url=' + encodeURIComponent(pic);
+        profileImg.src = proxied;
+        profileImg.onload = function () {
+          profileImg.classList.add('loaded');
+          sessionStorage.setItem('photoUserLink', proxied);
+          loadingEl.style.display = 'none';
+        };
+        profileImg.onerror = showAvatar;
+      })
+      .catch(function () {
+        var cached = sessionStorage.getItem('photoUserLink');
+        if (cached) {
+          profileImg.src = cached;
+          profileImg.classList.add('loaded');
+          loadingEl.style.display = 'none';
+        } else {
+          showAvatar();
+        }
+      });
+  } else {
+    phoneEl.textContent = '';
+    loadingEl.style.display = 'none';
+  }
+
+  var bar = document.getElementById('progress-bar');
+  var pctDisplay = document.getElementById('pct-display');
+  var labelText = document.getElementById('progress-label-text');
+  var ctaEl = document.querySelector('.delayzin');
+  var scanEl = document.getElementById('scan-text');
+  var progressStarted = false;
+  var scanInterval = null;
+
+  var scans = [
+    'Decoding secret conversations...',
+    'Capturing recent photos...',
+    'Tracking real-time location...',
+    'Unlocking Snapchat...',
+    'Analyzing video calls...',
+    'Reading text messages...',
+    'Checking statuses and stories...',
+    'Syncing with cloud...',
+    'Monitoring TikTok...',
+    'Recovering deleted messages...',
+    'Accessing hidden galleries...',
+    'Reading received emails...',
+    'Decrypting browsing history...',
+    'Viewing private notes...',
+    'Checking added contacts...',
+    'Analyzing voice messages...',
+    'Identifying connected devices...',
+    'Monitoring social media...',
+    'Analyzing WhatsApp photos...',
+    'Recovering shared documents...',
+    'Decrypting saved passwords...',
+    'Downloading final result...'
+  ];
+
+  var si = 0;
+
+  function startScans() {
+    scanInterval = setInterval(function () {
+      si = (si + 1) % scans.length;
+      scanEl.textContent = scans[si];
+    }, 1800);
+  }
+
+  function showComplete() {
+    if (scanInterval) clearInterval(scanInterval);
+    scanEl.textContent = '';
+    var scanCard = document.querySelector('.scan-card');
+    if (scanCard) {
+      scanCard.style.background = 'rgba(0,255,136,0.08)';
+      scanCard.style.border = '1px solid rgba(0,255,136,0.35)';
+      scanCard.innerHTML = '<div style="display:flex;align-items:center;gap:12px;padding:4px 0;">'
+        + '<span style="font-size:1.8rem;">✅</span>'
+        + '<div><div style="font-family:Orbitron,monospace;font-size:0.7rem;font-weight:700;color:#00ff88;letter-spacing:0.1em;text-transform:uppercase;">ANALYSIS COMPLETE</div>'
+        + '<div style="font-size:0.82rem;color:#a0c0b0;margin-top:4px;">All data was successfully collected.</div></div></div>';
+    }
+    ctaEl.classList.add('visible');
+    setTimeout(function () {
+      ctaEl.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }, 100);
+  }
+
+  function startSyncedProgress(duration) {
+    if (progressStarted) return;
+    progressStarted = true;
+    startScans();
+    var totalMs = duration * 1000;
+    var startTime = Date.now();
+
+    function upd() {
+      var pct = Math.min(Math.floor((Date.now() - startTime) / totalMs * 100), 100);
+      bar.style.width = pct + '%';
+      pctDisplay.textContent = pct + '%';
+      if (pct < 30) labelText.textContent = '0-30%';
+      else if (pct < 60) labelText.textContent = '30-60%';
+      else if (pct < 90) labelText.textContent = '60-90%';
+      else labelText.textContent = '90-100%';
+      if (pct >= 100) {
+        bar.style.width = '100%';
+        pctDisplay.textContent = '100%';
+        labelText.textContent = '100%';
+        showComplete();
+        return;
+      }
+      requestAnimationFrame(upd);
+    }
+
+    requestAnimationFrame(upd);
+  }
+
+  setTimeout(function () {
+    if (!progressStarted) startSyncedProgress(100);
+  }, 3000);
+
+  var min = 153, max = 1080, cur = Math.floor(Math.random() * (max - min + 1)) + min;
+  var cEl = document.getElementById('contador-pessoas');
+  setInterval(function () {
+    var v = Math.floor(Math.random() * 10) + 1;
+    cur += Math.random() < 0.5 ? v : -v;
+    cur = Math.max(min, Math.min(max, cur));
+    cEl.innerHTML = '🟩 <strong>' + cur + '</strong> people running analysis now...';
+  }, Math.floor(Math.random() * 3000) + 2000);
+});
+</script>
+</body>
+</html>
