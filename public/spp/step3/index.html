@@ -488,6 +488,30 @@
       </div>
       <div class="video-wrap" style="margin:0;border-radius:0 0 var(--radius) var(--radius);border-top:none;padding:0;">
         <vturb-smartplayer id="vid-6a4a089312467ad3e497d1d3" style="display: block; margin: 0 auto; width: 100%; max-width: 400px;"><div class="vturb-player-placeholder" style="position: relative; width: 100%; padding: 177.77777777777777% 0 0; z-index: 0; background-color: black;"></div></vturb-smartplayer>
+        <script type="text/javascript">
+          // Impede autoplay do VTurb em qualquer contexto (shadow DOM, iframe, etc.)
+          (function () {
+            var origPlay = HTMLMediaElement.prototype.play;
+            var allowPlay = false;
+            HTMLMediaElement.prototype.play = function () {
+              if (!allowPlay) {
+                this.pause();
+                return Promise.reject(new DOMException('autoplay blocked', 'NotAllowedError'));
+              }
+              return origPlay.apply(this, arguments);
+            };
+            // Libera o play ao clicar no player ou em qualquer interação do usuário
+            function unlock() { allowPlay = true; }
+            var player = document.getElementById('vid-6a4a089312467ad3e497d1d3');
+            if (player) {
+              player.addEventListener('click', unlock, true);
+              player.addEventListener('touchstart', unlock, true);
+            }
+            ['click', 'touchstart', 'keydown'].forEach(function (ev) {
+              document.addEventListener(ev, unlock, { once: true });
+            });
+          })();
+        </script>
         <script type="text/javascript">var s=document.createElement("script");s.src="https://scripts.converteai.net/242191ca-0d82-4e8a-a6bf-c113dff638e2/players/6a4a089312467ad3e497d1d3/v4/player.js",s.async=!0,document.head.appendChild(s);</script>
       </div>
     </div>
