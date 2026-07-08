@@ -1,5 +1,5 @@
 (function () {
-  var CHECKOUT = 'https://go.centerpag.com/PPU38CQCPDD';
+  var CHECKOUT = 'https://go.centerpag.com/PPU38CQDTD8';
   var shown = false;
   var matrixTimer = null;
   var countdownTimer = null;
